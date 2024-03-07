@@ -11,6 +11,9 @@ All you have to do is find all the bomb by putting a flag on it or you can just 
 ## 🖥️ Requirements
 This program is coded in micropython just for Numwoks calculator but it must works on a computer if you change the module to adapt with Pyhton. But unfortunately, you also have to adapt the size of the boxes to your screen otherwise, it will be hard to see your game.
 
+## 💬 Language
+It was coded on a Numworks calculator in Micropython.
+
 ## 🛠️ Details
 Unfortunately, it's in French, but there are not so many text so it won't be hard to understand.
 
