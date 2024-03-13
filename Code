@@ -51,8 +51,8 @@ def lose():
  for a in range(26):
   for b in range(11):
    if dspl[a][b]==0:fr(posX[a],posY[b],w,h,bk)
-   elif dspl[a][b]==1:fr(posX[a],posY[b],w,h,re),mine(a,b)
-   elif dspl[a][b]==4:fr(posX[a],posY[b],w,h,gr),mine(a,b)      
+   elif dspl[a][b]==1:fr(posX[a],posY[b],w,h,re),mine(a,b),sl(0.05)
+   elif dspl[a][b]==4:fr(posX[a],posY[b],w,h,gr),mine(a,b),sl(0.05)
  while True:
   if kd(4):break
  game=False
