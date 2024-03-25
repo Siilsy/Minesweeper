@@ -1,7 +1,7 @@
 from kandinsky import fill_rect as fr,draw_string as ds
 from ion import keydown as kd
 from random import randint as rd
-from time import sleep as sl
+from time import sleep as sl,monotonic as mn
 
 slct,itfc=(0,255,0),(255,181,59)
 bk,wh,bw=(0,)*3,(255,)*3,(200,)*3
@@ -36,13 +36,16 @@ def win():
    if dspl[a][b]==0:cv+=1
    elif dspl[a][b]==3:er+=1
  if cv==0 and er==0:
+  tf=mn()
   for a in range(26):
    for b in range(11):
     if dspl[a][b] in [1,4]:fr(posX[a],posY[b],w,h,gr),mine(a,b),sl(0.1)
-  fr(90,67,140,28,bk),ds("C'est gagné !",95,72,gr)
-  fr(70,105,180,28,bk),ds("Niveau "+str(nd+1)+" reussi !",75,110,bl)
+  fr(90,47,140,28,bk),ds("C'est gagné !",95,52,gr)
+  fr(70,85,180,28,bk),ds("Niveau "+str(nd+1)+" reussi !",75,90,bl)
   if nd<2:nd+=1
-  fr(65,143,190,28,bk),ds("Niveau suivant : "+str(nd+1),70,148,re)
+  fr(65,123,190,28,bk),ds("Niveau suivant : "+str(nd+1),70,128,re)
+  tm=len(str(round(tf-t)))*5
+  fr(90-tm,163,140+tm*2,28,bk),ds("Reussi en "+str(int(round(tf-t)))+"s !",95-tm,168,itfc)
   while True:
    if kd(4):break
   game=False
@@ -80,17 +83,12 @@ def scan(x,y,c=0,d=0):
      dspl[bx][by]=2
 
 while True:
- fr(0,0,320,222,bw)
- fr(0,0,5,222,itfc)
- fr(315,0,5,222,itfc)
- fr(0,0,320,4,itfc)
- for i in range(1,len(posX)):
-  fr(posX[i]-2,4,2,218,bk)
- for i in range(1,len(posY)):
-  fr(5,posY[i]-2,310,2,bk)
+ fr(0,0,320,222,bw),fr(0,0,5,222,itfc),fr(315,0,5,222,itfc),fr(0,0,320,4,itfc)
+ for i in range(1,len(posX)):fr(posX[i]-2,4,2,218,bk)
+ for i in range(1,len(posY)):fr(5,posY[i]-2,310,2,bk)
  dspl=[[0]*11 for i in range(26)]
- game,new,first=True,True,True
- px,py,x,y=13,5,13,5
+ game,new,first,p=True,True,True,False
+ px,py,x,y,t=13,5,13,5,mn()
  while game:
   if new:
    new=False
@@ -100,6 +98,7 @@ while True:
    fr(posX[x],posY[y],w,h,slct)
    if dspl[x][y] in [3,4]:flag(x,y)
    elif dspl[x][y]==2:scan(x,y,1)
+   if p:fr(0,0,320,222,bk)
    sl(0.2),win()
   if kd(0):
    px,py,new=x,y,True
@@ -127,7 +126,7 @@ while True:
       bx,by=x+a,y+b
       if bx<0 or by<0:continue
       elif bx>25 or by>10:continue
-      dspl[x+a][y+b]=2
+      dspl[bx][by]=2
     for i in range(rd(dfct[nd][0],dfct[nd][1])*(26*11)/100):spawn(x,y)
     for a in range(-1,2):
      for b in range(-1,2):
@@ -162,3 +161,14 @@ while True:
   elif kd(12):game,nd=False,0
   elif kd(13):game,nd=False,1
   elif kd(14):game,nd=False,2
+  elif kd(4):
+   if not p:new,p=True,True
+   else:
+    new,p=True,False
+    fr(0,0,320,222,bw),fr(0,0,5,222,itfc),fr(315,0,5,222,itfc),fr(0,0,320,4,itfc)
+    for i in range(1,len(posX)):fr(posX[i]-2,4,2,218,bk)
+    for i in range(1,len(posY)):fr(5,posY[i]-2,310,2,bk)
+    for a in range(26):
+     for b in range(11):
+      if dspl[a][b]==2:scan(a,b)
+      elif dspl[a][b] in [3,4]:fr(posX[a],posY[b],w,h,wh),flag(a,b)
