@@ -22,4 +22,4 @@ It was coded on a Numworks calculator in Micropython.
 ## 🛠️ Details
 Unfortunately, it's in French, but there are not so many text so it won't be hard to understand.
 
-The script has been created the November 21 of 2023.
+The project has been created the November 21 of 2023.
